@@ -1,30 +1,12 @@
-
-# coding: utf-8
-
-# In[9]:
-
-
 import numpy as np
 import torch
 import torch.nn.functional as F
 from torch.autograd import Variable
 
-
-# In[10]:
-
-
 N = 100
 D = 2
 
-
-# In[11]:
-
-
 X = np.random.randn(N,D)*2
-
-
-# In[12]:
-
 
 # center the first N/2 points at (-2,-2)
 X[:int(N / 2), :] = X[:int(N / 2), :] - 2 * np.ones((int(N / 2), D))
@@ -35,15 +17,8 @@ X[int(N / 2):, :] = X[int(N / 2):, :] + 2 * np.ones((int(N / 2), D))
 # labels: first N/2 are 0, last N/2 are 1
 T = np.array([0] * int(N / 2) + [1] * int(N / 2)).reshape(100, 1)
 
-
-# In[13]:
-
-
 x_data = Variable(torch.Tensor(X))
 y_data = Variable(torch.Tensor(T))
-
-
-# In[14]:
 
 
 class Model(torch.nn.Module):
@@ -58,16 +33,8 @@ class Model(torch.nn.Module):
 # Our model    
 model = Model()
 
-
-# In[15]:
-
-
 criterion = torch.nn.BCELoss(size_average=True)
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
-
-
-# In[16]:
-
 
 # Training loop
 for epoch in range(1000):
@@ -83,37 +50,17 @@ for epoch in range(1000):
     loss.backward()
     optimizer.step()
 
-
-# In[17]:
-
-
 w = np.array([])
 for f in model.parameters():
     print('data is')
     print(f.data)
     print(f.grad)
 
-
-# In[18]:
-
-
 w = list(model.parameters())
-
-
-# In[19]:
-
 
 w0 = w[0].data.numpy()
 
-
-# In[20]:
-
-
 w1 = w[1].data.numpy()
-
-
-# In[21]:
-
 
 import matplotlib.pyplot as plt
 
@@ -127,4 +74,5 @@ plt.legend(handles=[line_up])
 plt.xlabel('X(1)')
 plt.ylabel('X(2)')
 plt.show()
+#plt.savefig('LogisticPytorch.png')
 
